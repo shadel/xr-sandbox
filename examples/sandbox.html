@@ -27,10 +27,18 @@
       streamCanvasData();
     }
 
-    window.addEventListener('keydown', handleKeyPress);
+    function handleMouseEvent(event) {
+      ctx.fillStyle = 'green';
+      ctx.beginPath();
+      ctx.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2);
+      ctx.fill();
+      streamCanvasData();
+    }
 
-    // Stream canvas data every second
-    setInterval(streamCanvasData, 1000);
+    window.addEventListener('keydown', handleKeyPress);
+    canvas.addEventListener('mousedown', handleMouseEvent);
+    canvas.addEventListener('mouseup', handleMouseEvent);
+    canvas.addEventListener('mousemove', handleMouseEvent);
   </script>
 </body>
 </html>

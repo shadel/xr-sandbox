@@ -5,10 +5,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  plugins: ['@typescript-eslint', '
-
-prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
   },
+  ignorePatterns: ['dist/', 'node_modules/'],
 };
