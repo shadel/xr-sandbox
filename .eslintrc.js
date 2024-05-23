@@ -10,4 +10,14 @@ module.exports = {
     'prettier/prettier': 'error',
   },
   ignorePatterns: ['dist/', 'node_modules/'],
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
+  },
 };

@@ -1,10 +1,10 @@
 import { ICommunicationScriptInjector } from "./interfaces/ICommunicationScriptInjector";
 import { IMessageHandler } from "./interfaces/IMessageHandler";
 import { IFunctionExecutor } from "./interfaces/IFunctionExecutor";
-import { CanvasLogic } from "./CanvasLogic";
 import { CommunicationScriptInjector } from "./CommunicationScriptInjector";
 import { FunctionExecutor } from "./FunctionExecutor";
 import { CanvasMessageHandler } from "./CanvasMessageHandler";
+import CanvasLogic from "./CanvasLogic";
 
 class CanvasSandboxVirtualization {
   private communicationScriptInjector: ICommunicationScriptInjector;
