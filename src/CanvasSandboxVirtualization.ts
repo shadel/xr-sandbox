@@ -85,6 +85,7 @@ class CanvasSandboxVirtualization extends SandboxVirtualizationBase {
                         view: window
                     });
                     canvas.dispatchEvent(mouseEvent);
+                    streamCanvasData();
                 }
 
                 window.addEventListener('keydown', handleKeyPress);
@@ -99,7 +100,7 @@ class CanvasSandboxVirtualization extends SandboxVirtualizationBase {
                     }
                 });
 
-                setInterval(streamCanvasData, 100);
+                setInterval(streamCanvasData, 200); // Decreased interval delay
             })();
         `;
     this.injectScript(scriptContent);
