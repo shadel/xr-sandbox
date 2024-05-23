@@ -1,6 +1,5 @@
 import CanvasSandboxVirtualization from '../src/CanvasSandboxVirtualization';
 
-// Initialize the virtualization with a document element and the sandbox URL
 const containerElement = document.getElementById('container')!;
 const sandboxUrl = 'sandbox.html';
 const canvasSandboxVirtualization = new CanvasSandboxVirtualization(containerElement, sandboxUrl);
@@ -20,6 +19,22 @@ drawBlueRectButton.addEventListener('click', () => {
 const drawRedRectButton = document.getElementById('drawRedRect')!;
 drawRedRectButton.addEventListener('click', () => {
   canvasSandboxVirtualization.drawRectangle(150, 150, 100, 100, 'red');
+});
+
+// Add new custom logic without changing CanvasSandboxVirtualization
+const customFunctionButton = document.createElement('button');
+customFunctionButton.textContent = 'Custom Function';
+document.body.appendChild(customFunctionButton);
+
+customFunctionButton.addEventListener('click', () => {
+  const functionBody = `
+    ctx.fillStyle = 'yellow';
+    ctx.beginPath();
+    ctx.arc(200, 200, 50, 0, Math.PI * 2);
+    ctx.fill();
+    streamCanvasData();
+  `;
+  canvasSandboxVirtualization.executeCustomFunction(functionBody);
 });
 
 if (import.meta.hot) {

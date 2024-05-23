@@ -8,30 +8,7 @@
 <body>
   <canvas id="sandboxCanvas" width="800" height="600"></canvas>
   <script>
-    const canvas = document.getElementById('sandboxCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function handleKeyPress(event) {
-      if (event.key === 'F1') {
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(50, 50, 100, 100);
-      } else if (event.key === 'F2') {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(150, 150, 100, 100);
-      }
-    }
-
-    function handleMouseEvent(event) {
-      ctx.fillStyle = 'green';
-      ctx.beginPath();
-      ctx.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    window.addEventListener('keydown', handleKeyPress);
-    canvas.addEventListener('mousedown', handleMouseEvent);
-    canvas.addEventListener('mouseup', handleMouseEvent);
-    canvas.addEventListener('mousemove', handleMouseEvent);
+    // The common script logic injected by CanvasSandboxVirtualization
   </script>
 </body>
 </html>
