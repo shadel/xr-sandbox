@@ -35,52 +35,55 @@ customFunctionButton.addEventListener('click', () => {
     ctx.fill();
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.executeCustomFunction(functionBody);
+  canvasSandboxVirtualization.injectFunction('customYellowCircle', functionBody);
+  canvasSandboxVirtualization.executeCustomFunction('customYellowCircle');
 });
 
-// Example of injecting a new function into the global scope
-const injectGlobalFunctionButton = document.createElement('button');
-injectGlobalFunctionButton.textContent = 'Inject Global Function';
-document.body.appendChild(injectGlobalFunctionButton);
+// Example of injecting a new function into the sandbox
+const injectFunctionButton = document.createElement('button');
+injectFunctionButton.textContent = 'Inject Function';
+document.body.appendChild(injectFunctionButton);
 
-injectGlobalFunctionButton.addEventListener('click', () => {
+injectFunctionButton.addEventListener('click', () => {
   const functionBody = `
     ctx.fillStyle = 'purple';
     ctx.fillRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.injectFunction(null, 'drawPurpleRect', functionBody);
+  canvasSandboxVirtualization.injectFunction('drawPurpleRect', functionBody);
   canvasSandboxVirtualization.executeCustomFunction('drawPurpleRect');
 });
 
-// Example of replacing an existing function in the global scope
-const replaceGlobalFunctionButton = document.createElement('button');
-replaceGlobalFunctionButton.textContent = 'Replace Global Function';
-document.body.appendChild(replaceGlobalFunctionButton);
+// Example of replacing an existing function in the sandbox
+const replaceFunctionButton = document.createElement('button');
+replaceFunctionButton.textContent = 'Replace Function';
+document.body.appendChild(replaceFunctionButton);
 
-replaceGlobalFunctionButton.addEventListener('click', () => {
+replaceFunctionButton.addEventListener('click', () => {
   const functionBody = `
     ctx.fillStyle = 'green';
     ctx.fillRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.replaceFunction(null, 'drawPurpleRect', functionBody);
+  canvasSandboxVirtualization.injectFunction('drawPurpleRect', functionBody);
   canvasSandboxVirtualization.executeCustomFunction('drawPurpleRect');
 });
 
-// Example of hooking into an existing function in the global scope
-const hookGlobalFunctionButton = document.createElement('button');
-hookGlobalFunctionButton.textContent = 'Hook Global Function';
-document.body.appendChild(hookGlobalFunctionButton);
+// Example of hooking into an existing function in the sandbox
+const hookFunctionButton = document.createElement('button');
+hookFunctionButton.textContent = 'Hook Function';
+document.body.appendChild(hookFunctionButton);
 
-hookGlobalFunctionButton.addEventListener('click', () => {
+hookFunction
+
+Button.addEventListener('click', () => {
   const hookBody = `
     originalFunction(ctx, canvas, streamCanvasData, args);
     ctx.strokeStyle = 'red';
     ctx.strokeRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.hookFunction(null, 'drawPurpleRect', hookBody);
+  canvasSandboxVirtualization.injectFunction('drawPurpleRect', hookBody);
   canvasSandboxVirtualization.executeCustomFunction('drawPurpleRect');
 });
 
@@ -95,7 +98,7 @@ injectObjectFunctionButton.addEventListener('click', () => {
     ctx.fillRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.injectFunction('window.myObject', 'drawOrangeRect', functionBody);
+  canvasSandboxVirtualization.injectFunction('myObject.drawOrangeRect', functionBody);
   canvasSandboxVirtualization.executeCustomFunction('myObject.drawOrangeRect');
 });
 
@@ -110,7 +113,7 @@ replaceObjectFunctionButton.addEventListener('click', () => {
     ctx.fillRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.replaceFunction('window.myObject', 'drawOrangeRect', functionBody);
+  canvasSandboxVirtualization.injectFunction('myObject.drawOrangeRect', functionBody);
   canvasSandboxVirtualization.executeCustomFunction('myObject.drawOrangeRect');
 });
 
@@ -126,7 +129,7 @@ hookObjectFunctionButton.addEventListener('click', () => {
     ctx.strokeRect(10, 10, 150, 100);
     streamCanvasData();
   `;
-  canvasSandboxVirtualization.hookFunction('window.myObject', 'drawOrangeRect', hookBody);
+  canvasSandboxVirtualization.injectFunction('myObject.drawOrangeRect', hookBody);
   canvasSandboxVirtualization.executeCustomFunction('myObject.drawOrangeRect');
 });
 
@@ -136,7 +139,19 @@ captureMouseMoveButton.textContent = 'Capture Mouse Move';
 document.body.appendChild(captureMouseMoveButton);
 
 captureMouseMoveButton.addEventListener('click', () => {
-  canvasSandboxVirtualization.captureEvent('mousemove');
+  canvasSandboxVirtualization.injectFunction('captureEvent', `canvas.addEventListener('mousemove', (event) => {
+    const eventData = {
+      type: 'capturedEvent',
+      eventType: 'mousemove',
+      clientX: event.clientX,
+      clientY: event.clientY,
+      offsetX: event.offsetX,
+      offsetY: event.offsetY,
+      button: event.button
+    };
+    window.parent.postMessage(eventData, '*');
+  });`);
+  canvasSandboxVirtualization.executeCustomFunction('captureEvent');
 });
 
 window.addEventListener('mousemove', (event) => {
