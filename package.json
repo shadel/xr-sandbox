@@ -8,8 +8,9 @@
     "prepare": "husky install",
     "build": "tsc",
     "test": "jest",
-    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" \"examples/**/*.ts\"",
+    "lint:fix": "eslint --fix \"src/**/*.ts\" \"examples/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"examples/**/*.ts\"",
     "dev": "vite"
   },
   "lint-staged": {
