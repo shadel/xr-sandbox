@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sandbox</title>
+</head>
+<body>
+  <canvas id="sandboxCanvas" width="800" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('sandboxCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function streamCanvasData() {
+      const dataUrl = canvas.toDataURL();
+      window.parent.postMessage({ type: 'canvasData', data: dataUrl }, '*');
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'F1') {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(50, 50, 100, 100);
+      } else if (event.key === 'F2') {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(150, 150, 100, 100);
+      }
+      streamCanvasData();
+    }
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    // Stream canvas data every second
+    setInterval(streamCanvasData, 1000);
+  </script>
+</body>
+</html>
