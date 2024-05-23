@@ -11,11 +11,6 @@
     const canvas = document.getElementById('sandboxCanvas');
     const ctx = canvas.getContext('2d');
 
-    function streamCanvasData() {
-      const dataUrl = canvas.toDataURL();
-      window.parent.postMessage({ type: 'canvasData', data: dataUrl }, '*');
-    }
-
     function handleKeyPress(event) {
       if (event.key === 'F1') {
         ctx.fillStyle = 'blue';
@@ -24,7 +19,6 @@
         ctx.fillStyle = 'red';
         ctx.fillRect(150, 150, 100, 100);
       }
-      streamCanvasData();
     }
 
     function handleMouseEvent(event) {
@@ -32,7 +26,6 @@
       ctx.beginPath();
       ctx.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2);
       ctx.fill();
-      streamCanvasData();
     }
 
     window.addEventListener('keydown', handleKeyPress);

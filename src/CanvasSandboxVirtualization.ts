@@ -99,7 +99,7 @@ class CanvasSandboxVirtualization extends SandboxVirtualizationBase {
                     }
                 });
 
-                setInterval(streamCanvasData, 1000);
+                setInterval(streamCanvasData, 100);
             })();
         `;
     this.injectScript(scriptContent);
