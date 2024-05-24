@@ -30,7 +30,9 @@ async function runner() {
 
   await flow.waitElementExist(sandboxStartButton);
   
-  sandboxStartButton.click();
+  await sandboxStartButton.click();
+
+  console.log("show char")
   
   const drawBlueRectButton = document.getElementById("drawBlueRect")!;
   drawBlueRectButton.addEventListener("click", () => {

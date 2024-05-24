@@ -101,20 +101,21 @@ class PageSandbox implements IPageSanbox {
       const messageHandler = this.getMessageHandler();
       messageHandler.add({
         type: "capturedEvent",
-        handler: (eventData: any) => {
+        handler: (eventData: any, destroy) => {
           if (isTimeout) {
             return;
           }
           console.log(
-            "exist capturedEvent",
+            "capturedEvent",
+            script.getId(),
             eventData.data.eventType,
-            evtKey,
-            eventData
+            evtKey
           );
           if (eventData.data.eventType !== evtKey) {
             return;
           }
           clearTimeout(timeoutHandler);
+          destroy();
           resolve(eventData.data);
         },
       });

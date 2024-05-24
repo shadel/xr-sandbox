@@ -18,7 +18,7 @@ export class SanboxElement implements ISanboxElement {
   }
   click() {
     const clickEvent = new EventClickCreateSandboxScript();
-    this.dispatchEvent(clickEvent);
+    return this.dispatchEvent(clickEvent);
   }
 
   dispatchEvent(event: ISandboxScript) {
@@ -27,7 +27,7 @@ export class SanboxElement implements ISanboxElement {
       event,
       selectorScript
     );
-    this.executeScriptInBlock([dispatchScript]);
+    return this.page.executeScript(dispatchScript, {});
   }
   exist(timeout?: number): Promise<void> {
     const selectorScript = this.selector.getScript();

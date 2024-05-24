@@ -1,4 +1,4 @@
 export interface ISanboxElement {
-  click(): void;
+  click(): Promise<void>;
   exist(timeout?: number): Promise<void>;
 }
