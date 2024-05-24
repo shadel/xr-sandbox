@@ -24,10 +24,18 @@ class PageSandbox implements IPageSanbox {
     this.communicationScriptInjector.injectCommunicationScript();
   }
 
+  private destroyExistIframe(sandboxUrl: string) {
+    const existElement = document.querySelector(`iframe[src='${sandboxUrl}']`);
+    if (existElement) {
+      existElement.remove();
+    }
+  }
   private createIframe(
     documentElement: HTMLElement,
     sandboxUrl: string
   ): HTMLIFrameElement {
+    this.destroyExistIframe(sandboxUrl);
+
     const iframe = document.createElement("iframe");
     // iframe.style.display = "none";
     iframe.src = sandboxUrl;
