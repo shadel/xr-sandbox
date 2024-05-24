@@ -12,16 +12,28 @@ class PageSandbox implements IPageSanbox {
   private functionExecutor: IScriptFunctionExecutor;
   private sandboxIframe: HTMLIFrameElement;
 
-  constructor(documentElement: HTMLElement, sandboxUrl: string) {
+  constructor({
+    documentElement,
+    sandboxUrl,
+  }: {
+    documentElement: HTMLElement;
+    sandboxUrl: string;
+  }) {
     this.sandboxIframe = this.createIframe(documentElement, sandboxUrl);
     this.functionExecutor = new ScriptFunctionExecutor(this.sandboxIframe);
     this.communicationScriptInjector = new CommunicationPageScriptInjector(
       this.functionExecutor
     );
-    this.messageHandler = new SanboxMessageHandler();
+    this.messageHandler = new SanboxMessageHandler({});
 
     this.setupMessageListener();
     this.communicationScriptInjector.injectCommunicationScript();
+  }
+  getMessageHandler(): IMessageHandler {
+    return this.messageHandler;
+  }
+  load(): Promise<IPageSanbox> {
+    throw new Error("Method not implemented.");
   }
 
   private destroyExistIframe(sandboxUrl: string) {

@@ -1,4 +1,5 @@
 import { ICommunicationScriptInjector } from "./interfaces/ICommunicationScriptInjector";
+import { ISandboxScript } from "./interfaces/ISandboxScript";
 import { IScriptFunctionExecutor } from "./interfaces/IScriptFunctionExecutor";
 import { AnonymousFunctionExecutorSandboxScript } from "./sandbox-scripts/AnonymousFunctionExecutorSandboxScript";
 import { SandboxScriptBlock } from "./SandboxScriptBlock";

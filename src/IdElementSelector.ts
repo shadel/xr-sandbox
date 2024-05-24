@@ -6,6 +6,9 @@ export class IdElemenetSelector implements ISanboxElementSelector {
   constructor(id: string) {
     this.id = id;
   }
+  getName(): string {
+    return `Selector by Id: ${this.id}`;
+  }
   getScript() {
     return new SelectorByIdSandboxScript(this.id);
   }
