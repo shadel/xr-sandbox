@@ -6,6 +6,7 @@ import { ISandboxScriptBlock } from "./interfaces/ISandboxScriptBlock";
 import { EventcaptureOnetimeSandboxScript } from "./sandbox-scripts/EventcaptureOnetimeSandboxScript";
 import { EventClickCreateSandboxScript } from "./sandbox-scripts/EventClickCreateSandboxScript";
 import { EventDispatchSandboxScript } from "./sandbox-scripts/EventDispatchSandboxScript";
+import { FallbackType } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
 import { SandboxScriptBlock } from "./SandboxScriptBlock";
 
 export class SanboxElement implements ISanboxElement {
@@ -28,54 +29,12 @@ export class SanboxElement implements ISanboxElement {
     );
     this.executeScriptInBlock([dispatchScript]);
   }
-  exist(timeout = 10 * 1000): Promise<void> {
+  exist(timeout?: number): Promise<void> {
     const selectorScript = this.selector.getScript();
-    const evtKey = `step1-completed-${selectorScript.getId()}`;
-    const step1Checker = new EventcaptureOnetimeSandboxScript({
-      checker: `
-    ${selectorScript.getString()}
-    if (!element) {
-      return false;
-    }
-    return {eventType: '${evtKey}'}
-  `,
+    return this.page.executeScript(selectorScript, {
+      type: FallbackType.CHECK,
+      timeout,
     });
-
-    const eventRespone = new Promise<void>((resolve, reject) => {
-      let isTimeout = false;
-      const timeoutHandler = setTimeout(() => {
-        isTimeout = true;
-        clearTimeout(timeoutHandler);
-        reject(
-          new Error(`Element: ${this.selector.getName()} time out ${timeout}`)
-        );
-      }, timeout);
-
-      const messageHandler = this.page.getMessageHandler();
-      messageHandler.add({
-        type: "capturedEvent",
-        handler: (eventData: any) => {
-          if (isTimeout) {
-            return;
-          }
-          console.log(
-            "exist capturedEvent",
-            eventData.data.eventType,
-            evtKey,
-            eventData
-          );
-          if (eventData.data.eventType !== evtKey) {
-            return;
-          }
-          clearTimeout(timeoutHandler);
-          resolve(eventData);
-        },
-      });
-    });
-
-    this.executeScriptInBlock([step1Checker]);
-
-    return eventRespone;
   }
 
   private executeScript(codeblock: ISandboxScriptBlock) {

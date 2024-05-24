@@ -5,6 +5,12 @@ import { SanboxMessageHandler } from "./SandboxMessageHandler";
 import { IPageSanbox } from "./interfaces/IPageSandbox";
 import { IScriptFunctionExecutor } from "./interfaces/IScriptFunctionExecutor";
 import { ScriptFunctionExecutor } from "./ScriptFunctionExecutor";
+import { ISandboxScript } from "./interfaces/ISandboxScript";
+import {
+  FallbackOnetimeSandboxScript,
+  FallbackType,
+} from "./sandbox-scripts/FallbackOnetimeSandboxScript";
+import { SandboxScriptBlock } from "./SandboxScriptBlock";
 
 class PageSandbox implements IPageSanbox {
   private communicationScriptInjector: ICommunicationScriptInjector;
@@ -68,6 +74,63 @@ class PageSandbox implements IPageSanbox {
 
   public getFunctionExecutor() {
     return this.functionExecutor;
+  }
+  executeScript(
+    script: ISandboxScript,
+    { type = FallbackType.VOID, timeout = 10 * 1000 }
+  ) {
+    const sandboxCode = new FallbackOnetimeSandboxScript({
+      script,
+      type,
+    });
+
+    const evtKey = sandboxCode.getId();
+
+    const eventRespone = new Promise<any>((resolve, reject) => {
+      let isTimeout = false;
+      const timeoutHandler = setTimeout(() => {
+        isTimeout = true;
+        clearTimeout(timeoutHandler);
+        reject(
+          new Error(
+            `Script: ${script.getName()} by call ${evtKey} time out ${timeout}`
+          )
+        );
+      }, timeout);
+
+      const messageHandler = this.getMessageHandler();
+      messageHandler.add({
+        type: "capturedEvent",
+        handler: (eventData: any) => {
+          if (isTimeout) {
+            return;
+          }
+          console.log(
+            "exist capturedEvent",
+            eventData.data.eventType,
+            evtKey,
+            eventData
+          );
+          if (eventData.data.eventType !== evtKey) {
+            return;
+          }
+          clearTimeout(timeoutHandler);
+          resolve(eventData.data);
+        },
+      });
+    });
+
+    this.executeScriptInBlock([sandboxCode]);
+
+    return eventRespone;
+  }
+
+  private executeScriptInBlock(scripts: ISandboxScript[]) {
+    const codeblock = new SandboxScriptBlock();
+    scripts.forEach((scipt) => {
+      codeblock.add(scipt);
+    });
+    this.functionExecutor.executeScript(codeblock);
   }
 }
 

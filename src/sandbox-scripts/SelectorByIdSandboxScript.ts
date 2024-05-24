@@ -10,7 +10,7 @@ export class SelectorByIdSandboxScript extends SandboxScript {
   }
   getString(): string {
     return `
-        const element = document.getElementById("${this.selector}");
+        return document.getElementById("${this.selector}");
         `;
   }
 }

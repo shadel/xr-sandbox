@@ -14,9 +14,9 @@ export class EventDispatchSandboxScript extends SandboxScript {
   }
   getString(): string {
     return `
-        ${this.selectorScript.getString()}
-        ${this.eventScript.getString()}
-        element.dispatchEvent(event);
+        const element = ${this.selectorScript.code()}
+        const event = ${this.eventScript.code()}
+        return element.dispatchEvent(event);
         `;
   }
 }
