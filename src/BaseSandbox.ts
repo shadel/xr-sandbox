@@ -4,7 +4,7 @@ import { IMessageHandler } from "./interfaces/IMessageHandler";
 abstract class BaseSandbox
   implements ICommunicationScriptInjector, IMessageHandler
 {
-  protected sandboxIframe: HTMLIFrameElement;
+  protected sandboxIframe!: HTMLIFrameElement;
   protected sandboxUrl: string;
   protected documentElement: HTMLElement;
 
