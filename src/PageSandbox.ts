@@ -1,19 +1,20 @@
 import { ICommunicationScriptInjector } from "./interfaces/ICommunicationScriptInjector";
 import { IMessageHandler } from "./interfaces/IMessageHandler";
-import { IFunctionExecutor } from "./interfaces/IFunctionExecutor";
-import { FunctionExecutor } from "./FunctionExecutor";
 import { CommunicationPageScriptInjector } from "./CommunicationPageScriptInjector";
 import { SanboxMessageHandler } from "./SandboxMessageHandler";
+import { IPageSanbox } from "./interfaces/IPageSandbox";
+import { IScriptFunctionExecutor } from "./interfaces/IScriptFunctionExecutor";
+import { ScriptFunctionExecutor } from "./ScriptFunctionExecutor";
 
-class PageSandbox {
+class PageSandbox implements IPageSanbox {
   private communicationScriptInjector: ICommunicationScriptInjector;
   private messageHandler: IMessageHandler;
-  private functionExecutor: IFunctionExecutor;
+  private functionExecutor: IScriptFunctionExecutor;
   private sandboxIframe: HTMLIFrameElement;
 
   constructor(documentElement: HTMLElement, sandboxUrl: string) {
     this.sandboxIframe = this.createIframe(documentElement, sandboxUrl);
-    this.functionExecutor = new FunctionExecutor(this.sandboxIframe);
+    this.functionExecutor = new ScriptFunctionExecutor(this.sandboxIframe);
     this.communicationScriptInjector = new CommunicationPageScriptInjector(
       this.functionExecutor
     );
@@ -43,6 +44,10 @@ class PageSandbox {
       (event) => this.messageHandler.handleMessage(event),
       false
     );
+  }
+
+  public getFunctionExecutor() {
+    return this.functionExecutor;
   }
 }
 

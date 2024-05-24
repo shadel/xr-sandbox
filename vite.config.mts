@@ -31,6 +31,7 @@ export default defineConfig({
     eslintPlugin({
       cache: false,
       include: ['src/**/*.ts', 'examples/**/*.ts'],
+      fix: true
     }),
   ],
 });

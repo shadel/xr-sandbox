@@ -1,21 +1,20 @@
 import { ICommunicationScriptInjector } from "./interfaces/ICommunicationScriptInjector";
-import { IFunctionExecutor } from "./interfaces/IFunctionExecutor";
+import { IScriptFunctionExecutor } from "./interfaces/IScriptFunctionExecutor";
+import { AnonymousFunctionExecutorSandboxScript } from "./sandbox-scripts/AnonymousFunctionExecutorSandboxScript";
+import { SandboxScriptBlock } from "./SandboxScriptBlock";
 
 export class CommunicationPageScriptInjector
   implements ICommunicationScriptInjector
 {
-  private functionExecutor: IFunctionExecutor;
+  private functionExecutor: IScriptFunctionExecutor;
 
-  constructor(functionExecutor: IFunctionExecutor) {
+  constructor(functionExecutor: IScriptFunctionExecutor) {
     this.functionExecutor = functionExecutor;
   }
 
   injectCommunicationScript() {
-    const commonScriptContent = `
-      (function() {
-        // CommunicationPageScriptInjector
-      })();
-    `;
-    this.functionExecutor.injectScript(commonScriptContent);
+    const commonScripts = new SandboxScriptBlock();
+    commonScripts.add(new AnonymousFunctionExecutorSandboxScript());
+    this.functionExecutor.injectScript(commonScripts);
   }
 }
