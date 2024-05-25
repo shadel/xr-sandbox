@@ -34,7 +34,8 @@ function fallbackValue(id: string, code: string) {
 }
 
 export class FallbackOnetimeSandboxScript extends SandboxScript {
-  private script: ISandboxScript;
+  private captureScript: ISandboxScript;
+  private checkerScript: ISandboxScript;
   constructor({
     id,
     script,
@@ -45,7 +46,8 @@ export class FallbackOnetimeSandboxScript extends SandboxScript {
     type: FallbackType;
   }) {
     super(id);
-    this.script = new EventcaptureOnetimeSandboxScript({
+    this.checkerScript = script;
+    this.captureScript = new EventcaptureOnetimeSandboxScript({
       checker: this.getFallback(type)(this.getId(), script.code()),
     });
   }
@@ -63,6 +65,9 @@ export class FallbackOnetimeSandboxScript extends SandboxScript {
     return "FallbackOnetimeSandboxScript";
   }
   getString(): string {
-    return this.script.code();
+    return this.captureScript.code();
+  }
+  getChilds(): ISandboxScript[] {
+    return [this.captureScript, this.checkerScript];
   }
 }

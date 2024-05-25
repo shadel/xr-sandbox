@@ -3,8 +3,7 @@ import { ISanboxElement } from "./interfaces/ISanboxElement";
 import { ISanboxElementSelector } from "./interfaces/ISanboxElementSelector";
 import { ISandboxScript } from "./interfaces/ISandboxScript";
 import { ISandboxScriptBlock } from "./interfaces/ISandboxScriptBlock";
-import { EventcaptureOnetimeSandboxScript } from "./sandbox-scripts/EventcaptureOnetimeSandboxScript";
-import { EventClickCreateSandboxScript } from "./sandbox-scripts/EventClickCreateSandboxScript";
+import { EventCreateSandboxScript } from "./sandbox-scripts/EventCreateSandboxScript";
 import { EventDispatchSandboxScript } from "./sandbox-scripts/EventDispatchSandboxScript";
 import { FallbackType } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
 import { SandboxScriptBlock } from "./SandboxScriptBlock";
@@ -17,7 +16,7 @@ export class SanboxElement implements ISanboxElement {
     this.selector = selector;
   }
   click() {
-    const clickEvent = new EventClickCreateSandboxScript();
+    const clickEvent = new EventCreateSandboxScript("click", { bubbles: true }); // new Event( "click", { bubbles: true } )
     return this.dispatchEvent(clickEvent);
   }
 

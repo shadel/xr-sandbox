@@ -10,11 +10,14 @@ export class ScriptFunctionExecutor implements IScriptFunctionExecutor {
     this.functionExecutor = new FunctionExecutor(sandboxIframe);
   }
   executeScript(scriptContent: ISandboxScriptBlock): void {
-    this.functionExecutor.executeScript(scriptContent.code());
+    this.functionExecutor.executeScript(
+      scriptContent.code(),
+      scriptContent.sandboxArgs()
+    );
   }
 
   injectScript(scriptContent: ISandboxScriptBlock) {
-    this.functionExecutor.injectScript(scriptContent.code());
+    this.functionExecutor.injectScript(scriptContent.injectCode());
   }
 
   executeFunction(functionName: string, args?: any) {

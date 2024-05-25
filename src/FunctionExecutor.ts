@@ -8,9 +8,9 @@ export class FunctionExecutor implements IFunctionExecutor {
     this.sandboxIframe = sandboxIframe;
     this.id = `FunctionExecutor-${Date.now()}`;
   }
-  executeScript(scriptContent: string): void {
+  executeScript(scriptContent: string, args?: any): void {
     this.sandboxIframe.contentWindow?.postMessage(
-      { type: "executeAnonymousFunction", functionBody: scriptContent },
+      { type: "executeAnonymousFunction", functionBody: scriptContent, args },
       "*"
     );
   }
@@ -19,12 +19,12 @@ export class FunctionExecutor implements IFunctionExecutor {
     const sandboxWindow = this.sandboxIframe.contentWindow;
     const sandboxDocument =
       this.sandboxIframe.contentDocument || sandboxWindow!.document;
+    console.log("injectScript", this.id, scriptContent);
     const script = sandboxDocument.createElement("script");
     script.type = "text/javascript";
     script.innerHTML = scriptContent;
     script.id = this.id;
 
-    console.log("injectScript", this.id, scriptContent);
     sandboxDocument.body.appendChild(script);
   }
 

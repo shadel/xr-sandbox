@@ -1,24 +1,28 @@
 import { ISandboxScript } from "../interfaces/ISandboxScript";
 import { SandboxScript } from "./SandboxScript";
 
-export class EventDispatchSandboxScript extends SandboxScript {
+export class EventDispatchDataSandboxScript extends SandboxScript {
   constructor(
-    private eventScript: ISandboxScript,
+    private event: Event,
     private selectorScript: ISandboxScript,
     id?: string
   ) {
     super(id);
   }
+  args() {
+    return this.event;
+  }
   getName(): string {
-    return "EventDispatchSandboxScript";
+    return "EventDispatchDataSandboxScript";
   }
   getChilds(): ISandboxScript[] {
-    return [this.selectorScript, this.eventScript];
+    return [this.selectorScript];
   }
   getString(): string {
     return `
         const element = ${this.selectorScript.code()}
-        const event = ${this.eventScript.code()}
+        const event = ${this.argsCode()}
+        console.log({event});
         return element.dispatchEvent(event);
         `;
   }

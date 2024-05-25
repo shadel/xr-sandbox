@@ -1,4 +1,3 @@
-import { ISandboxScript } from "../interfaces/ISandboxScript";
 import { SandboxScript } from "./SandboxScript";
 
 export class EventClickCreateSandboxScript extends SandboxScript {

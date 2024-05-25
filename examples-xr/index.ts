@@ -40,7 +40,10 @@ async function runner() {
     sandboxStartButton.click();
   });
 }
-runner();
+  
+runner().then(() => console.log("Run sucess")).catch(error => {
+  console.error(error)
+})
 
 if (import.meta.hot) {
   import.meta.hot.accept();

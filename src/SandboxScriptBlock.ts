@@ -10,17 +10,23 @@ export class SandboxScriptBlock
   constructor(id?: string) {
     super(id);
   }
+  injectCode(): string {
+    return this.code();
+  }
   getName(): string {
     return "SandboxScriptBlock";
   }
   add(script: ISandboxScript): void {
     this.scripts.push(script);
   }
+  getChilds(): ISandboxScript[] {
+    return this.scripts;
+  }
   getString(): string {
-    return `(function() {
-            ${this.getComment()}
-            ${this.getConsole()}
-            ${this.scripts.map((script) => script.getString()).join("\n")}
-        })()`;
+    return `
+        ${this.getComment()}
+        ${this.getConsole()}
+        ${this.scripts.map((script) => script.code()).join("\n")}
+    `;
   }
 }
