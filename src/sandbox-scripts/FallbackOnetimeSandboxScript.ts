@@ -39,11 +39,11 @@ export class FallbackOnetimeSandboxScript extends SandboxScript {
   constructor({
     id,
     script,
-    type,
+    type = FallbackType.VOID,
   }: {
     id?: string;
     script: ISandboxScript;
-    type: FallbackType;
+    type?: FallbackType;
   }) {
     super(id);
     this.checkerScript = script;

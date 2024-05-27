@@ -1,6 +1,12 @@
-import { ISandboxScript } from "./interfaces/ISandboxScript";
-import { ISandboxScriptBlock } from "./interfaces/ISandboxScriptBlock";
-import { SandboxScript } from "./sandbox-scripts/SandboxScript";
+import { ISandboxScript } from "../interfaces/ISandboxScript";
+import { ISandboxScriptBlock } from "../interfaces/ISandboxScriptBlock";
+import { SandboxScript } from "./SandboxScript";
+
+function block(code: string, id: string) {
+  return `(async () => {
+    ${code}
+  })().then(() => console.log("${id}"))`;
+}
 
 export class SandboxScriptBlock
   extends SandboxScript
@@ -11,7 +17,7 @@ export class SandboxScriptBlock
     super(id);
   }
   injectCode(): string {
-    return this.code();
+    return block(this.getString(), this.getId());
   }
   getName(): string {
     return "SandboxScriptBlock";

@@ -8,8 +8,9 @@ export class AnonymousFunctionExecutorSandboxScript extends SandboxScript {
     return `
         function executeAnonymousFunction(functionBody, args) {
             ${this.getConsole()}
-            const func = new Function('args', functionBody);
-            func(args);
+            const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+            const func = new AsyncFunction('args', functionBody);
+            return func(args);
         }
         window.addEventListener('message', (event) => {
             if (event.data.type === 'executeAnonymousFunction') {

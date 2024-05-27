@@ -11,20 +11,20 @@ export class EventcaptureOnetimeSandboxScript extends SandboxScript {
   }
   getString(): string {
     return `
-        function checker_${this.getId()}() {
+      async function checker_${this.getId()}() {
           ${this.checker}
         }
         function sendCaptureEventToParent(data) {
-            window.parent.postMessage({ type: 'capturedEvent', data: data }, '*');
+            window._fakeparent.postMessage({ type: 'capturedEvent', data: data }, '*');
         }
-        function delayCheckFunc(func, checker) {
-          const data = checker();
+        async function delayCheckFunc(func, checker) {
+          const data = await checker();
           if (data) {
             console.log("direct call", func)
             func(data)
           } else {
-            const timerhandler = setInterval(() => {
-              const data = checker();
+            const timerhandler = setInterval(async () => {
+              const data = await checker();
               if (data) {
                 try {
                   func(data)

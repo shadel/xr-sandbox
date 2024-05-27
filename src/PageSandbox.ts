@@ -2,7 +2,7 @@ import { ICommunicationScriptInjector } from "./interfaces/ICommunicationScriptI
 import { IMessageHandler } from "./interfaces/IMessageHandler";
 import { CommunicationPageScriptInjector } from "./CommunicationPageScriptInjector";
 import { SanboxMessageHandler } from "./SandboxMessageHandler";
-import { IPageSanbox } from "./interfaces/IPageSandbox";
+import { IPageSandbox } from "./interfaces/IPageSandbox";
 import { IScriptFunctionExecutor } from "./interfaces/IScriptFunctionExecutor";
 import { ScriptFunctionExecutor } from "./ScriptFunctionExecutor";
 import { ISandboxScript } from "./interfaces/ISandboxScript";
@@ -10,9 +10,9 @@ import {
   FallbackOnetimeSandboxScript,
   FallbackType,
 } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
-import { SandboxScriptBlock } from "./SandboxScriptBlock";
+import { SandboxScriptBlock } from "./sandbox-scripts/SandboxScriptBlock";
 
-class PageSandbox implements IPageSanbox {
+class PageSandbox implements IPageSandbox {
   private communicationScriptInjector: ICommunicationScriptInjector;
   private messageHandler: IMessageHandler;
   private functionExecutor: IScriptFunctionExecutor;
@@ -38,7 +38,7 @@ class PageSandbox implements IPageSanbox {
   getMessageHandler(): IMessageHandler {
     return this.messageHandler;
   }
-  load(): Promise<IPageSanbox> {
+  load(): Promise<IPageSandbox> {
     throw new Error("Method not implemented.");
   }
 

@@ -5,9 +5,9 @@ function argCode(id: string) {
 }
 
 function block(code: string, id: string) {
-  return `(() => {
+  return `(await ((async () => {
     ${code}
-  })()`;
+  })()))`;
 }
 
 export abstract class SandboxScript implements ISandboxScript {

@@ -3,10 +3,10 @@ import { IMessageHandler } from "./IMessageHandler";
 import { ISandboxScript } from "./ISandboxScript";
 import { IScriptFunctionExecutor } from "./IScriptFunctionExecutor";
 
-export interface IPageSanbox {
+export interface IPageSandbox {
   getFunctionExecutor(): IScriptFunctionExecutor;
   getMessageHandler(): IMessageHandler;
-  load(): Promise<IPageSanbox>;
+  load(): Promise<IPageSandbox>;
   executeScript(
     codeblock: ISandboxScript,
     options: { type?: FallbackType; timeout?: number }

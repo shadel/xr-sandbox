@@ -1,4 +1,4 @@
-import { IPageSanbox } from "./interfaces/IPageSandbox";
+import { IPageSandbox } from "./interfaces/IPageSandbox";
 import { ISanboxElement } from "./interfaces/ISanboxElement";
 import { ISanboxElementSelector } from "./interfaces/ISanboxElementSelector";
 import { ISandboxScript } from "./interfaces/ISandboxScript";
@@ -6,12 +6,12 @@ import { ISandboxScriptBlock } from "./interfaces/ISandboxScriptBlock";
 import { EventCreateSandboxScript } from "./sandbox-scripts/EventCreateSandboxScript";
 import { EventDispatchSandboxScript } from "./sandbox-scripts/EventDispatchSandboxScript";
 import { FallbackType } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
-import { SandboxScriptBlock } from "./SandboxScriptBlock";
+import { SandboxScriptBlock } from "./sandbox-scripts/SandboxScriptBlock";
 
 export class SanboxElement implements ISanboxElement {
-  private page: IPageSanbox;
+  private page: IPageSandbox;
   private selector: ISanboxElementSelector;
-  constructor(page: IPageSanbox, selector: ISanboxElementSelector) {
+  constructor(page: IPageSandbox, selector: ISanboxElementSelector) {
     this.page = page;
     this.selector = selector;
   }

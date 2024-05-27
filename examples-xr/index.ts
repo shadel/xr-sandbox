@@ -1,22 +1,12 @@
-import { IdElemenetSelector } from "../src/IdElementSelector";
+import { IdElemenetSelector } from "../src/selectors/IdElementSelector";
+import { QuerySelector } from "../src/selectors/QuerySelector";
 import { SanboxElement } from "../src/SanboxElement";
 import PageSandbox from "../src/PageSandbox";
 import {Flow} from "../src/Flow";
-import {EventcaptureOnetimeSandboxScript} from "../src/sandbox-scripts/EventcaptureOnetimeSandboxScript";
+import { SA_DragDropEMUUrl } from "./scripts/SA_DragDropEMU";
 
-
-async function runner() {
-
-  const containerElement = document.getElementById("container")!;
+async function loadVRM(containerElement: HTMLElement, modelPath: string, filename: string) {
   const sandboxUrl = "./SystemAnimatorOnline/XR_Animator_improve.html";
-  
-  const step1Checker = new EventcaptureOnetimeSandboxScript({checker: `
-    const startButton = document.getElementById('LMMD_StartButton');
-    if (!startButton) {
-      return false;
-    }
-    return {eventType: 'step1-completed'}
-  `})
   
   const pageSandbox = new PageSandbox({
     documentElement: containerElement,
@@ -29,15 +19,29 @@ async function runner() {
   const flow = new Flow();
 
   await flow.waitElementExist(sandboxStartButton);
-  
-  await sandboxStartButton.click();
+
+  const script = await SA_DragDropEMUUrl(modelPath, filename);
+  const bodyButton = new SanboxElement(pageSandbox, new QuerySelector("body"));
+    
+  await flow.waitDispatch(bodyButton, script);
 
   console.log("show char")
+  sandboxStartButton.click();
+}
+async function runner() {
+
+  const containerElement = document.getElementById("container")!;
+  
+  const modelPath = `${location.href}data/vrms/khunglongxiu.vrm`;
+  const fifilename = modelPath.split("/").pop() || "";
+  await loadVRM(containerElement, modelPath, fifilename);
   
   const drawBlueRectButton = document.getElementById("drawBlueRect")!;
-  drawBlueRectButton.addEventListener("click", () => {
+  drawBlueRectButton.addEventListener("click", async () => {
     console.log("click");
-    sandboxStartButton.click();
+    const modelPath = `${location.href}data/mmds/firefly_03.zip`;
+    const fifilename = modelPath.split("/").pop() || "";
+    await loadVRM(containerElement, modelPath, fifilename);
   });
 }
   
