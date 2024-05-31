@@ -34,21 +34,28 @@ async function loadVRM(containerElement: HTMLElement, modelPath: string, filenam
   console.log("dung Exist")
   await flow.waitElementExecute(dungEventory, {command: "setAttribute", args: ['hidden', true]});
 }
+
+const models = [`${location.href}data/vrms/khunglongxiu.vrm`, `${location.href}data/mmds/firefly_03.zip`, `${location.href}data/mmds/Star Rail - Bronya.zip`];
+
+const createModelLoader = (containerElement: HTMLElement) => async (modelPath: string) => {
+  
+  const fifilename = modelPath.split("/").pop() || "";
+  await loadVRM(containerElement, modelPath, fifilename);
+}
+
 async function runner() {
 
   const containerElement = document.getElementById("container")!;
-  
-  const modelPath = `${location.href}data/vrms/khunglongxiu.vrm`;
-  const fifilename = modelPath.split("/").pop() || "";
-  await loadVRM(containerElement, modelPath, fifilename);
-  
-  const drawBlueRectButton = document.getElementById("drawBlueRect")!;
-  drawBlueRectButton.addEventListener("click", async () => {
-    console.log("click");
-    const modelPath = `${location.href}data/mmds/firefly_03.zip`;
-    const fifilename = modelPath.split("/").pop() || "";
-    await loadVRM(containerElement, modelPath, fifilename);
-  });
+  const modelLoader = createModelLoader(containerElement);
+
+  await modelLoader(models[0]);
+
+  ["changeModel1", "changeModel2", "changeModel3"].forEach((id, idx) => {
+    const button = document.getElementById(id)!;
+    button.addEventListener("click", async () => {
+      await modelLoader(models[idx]);
+    });
+  })
 }
   
 runner().then(() => console.log("Run sucess")).catch(error => {
