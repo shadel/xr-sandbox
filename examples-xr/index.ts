@@ -27,6 +27,12 @@ async function loadVRM(containerElement: HTMLElement, modelPath: string, filenam
 
   console.log("show char")
   sandboxStartButton.click();
+  
+  const dungEventory = new SanboxElement(pageSandbox, new IdElemenetSelector("Ldungeon_inventory"));
+
+  await flow.waitElementExist(dungEventory);
+  console.log("dung Exist")
+  await flow.waitElementExecute(dungEventory, {command: "setAttribute", args: ['hidden', true]});
 }
 async function runner() {
 

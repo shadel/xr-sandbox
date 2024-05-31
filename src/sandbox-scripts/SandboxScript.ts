@@ -13,7 +13,7 @@ function block(code: string, id: string) {
 export abstract class SandboxScript implements ISandboxScript {
   private _id: string;
   constructor(id?: string) {
-    this._id = id || Date.now().toString();
+    this._id = id || crypto.randomUUID();
   }
   sandboxArgs(): { [key: string]: any } {
     return this.getChilds()

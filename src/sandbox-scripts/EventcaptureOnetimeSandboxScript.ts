@@ -11,7 +11,7 @@ export class EventcaptureOnetimeSandboxScript extends SandboxScript {
   }
   getString(): string {
     return `
-      async function checker_${this.getId()}() {
+      async function checkerEventcaptureOnetime() {
           ${this.checker}
         }
         function sendCaptureEventToParent(data) {
@@ -26,6 +26,7 @@ export class EventcaptureOnetimeSandboxScript extends SandboxScript {
             const timerhandler = setInterval(async () => {
               const data = await checker();
               if (data) {
+                console.log("delayCheckFunc call", data)
                 try {
                   func(data)
                 } catch (error) {
@@ -37,7 +38,7 @@ export class EventcaptureOnetimeSandboxScript extends SandboxScript {
             }, 50)
           }
         }
-        delayCheckFunc(sendCaptureEventToParent, checker_${this.getId()});
+        delayCheckFunc(sendCaptureEventToParent, checkerEventcaptureOnetime);
       `;
   }
 }

@@ -6,6 +6,13 @@ export class Flow {
   async waitElementExist(element: ISanboxElement, timeout?: number) {
     return element.exist(timeout);
   }
+  async waitElementExecute(
+    element: ISanboxElement,
+    options: { command: string; args?: any[] },
+    timeout?: number
+  ) {
+    return element.executeCommand(options.command, options.args || [], timeout);
+  }
   async waitDispatch(
     element: ISanboxElement,
     evnt: ISandboxScript,

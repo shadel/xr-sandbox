@@ -3,6 +3,7 @@ import { ISanboxElement } from "./interfaces/ISanboxElement";
 import { ISanboxElementSelector } from "./interfaces/ISanboxElementSelector";
 import { ISandboxScript } from "./interfaces/ISandboxScript";
 import { ISandboxScriptBlock } from "./interfaces/ISandboxScriptBlock";
+import { ElementExecuteSandboxScript } from "./sandbox-scripts/ElementExecuteSandboxScript";
 import { EventCreateSandboxScript } from "./sandbox-scripts/EventCreateSandboxScript";
 import { EventDispatchSandboxScript } from "./sandbox-scripts/EventDispatchSandboxScript";
 import { FallbackType } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
@@ -27,6 +28,15 @@ export class SanboxElement implements ISanboxElement {
       selectorScript
     );
     return this.page.executeScript(dispatchScript, {});
+  }
+
+  executeCommand(command: string, args: any[]) {
+    const selectorScript = this.selector.getScript();
+    const commandScript = new ElementExecuteSandboxScript(selectorScript, {
+      command,
+      args,
+    });
+    return this.page.executeScript(commandScript, {});
   }
   exist(timeout?: number): Promise<void> {
     const selectorScript = this.selector.getScript();
