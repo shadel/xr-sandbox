@@ -1,6 +1,7 @@
 import { ISanboxElement } from "./interfaces/ISanboxElement";
 import { IPageSandbox } from "./interfaces/IPageSandbox";
 import { ISandboxScript } from "./interfaces/ISandboxScript";
+import { FallbackType } from "./sandbox-scripts/FallbackOnetimeSandboxScript";
 
 export class Flow {
   async waitElementExist(element: ISanboxElement, timeout?: number) {
@@ -23,8 +24,8 @@ export class Flow {
   async waitScriptRun(
     page: IPageSandbox,
     script: ISandboxScript,
-    timeout?: number
+    options?: { type: FallbackType; timeout?: number }
   ) {
-    return page.executeScript(script, { timeout: timeout });
+    return page.executeScript(script, options || {});
   }
 }

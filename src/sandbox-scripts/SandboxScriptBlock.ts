@@ -32,7 +32,10 @@ export class SandboxScriptBlock
     return `
         ${this.getComment()}
         ${this.getConsole()}
-        ${this.scripts.map((script) => script.code()).join("\n")}
+        ${this.scripts
+          .map((script) => script.code())
+          .map((code) => code + ";")
+          .join("\n")}
     `;
   }
 }
