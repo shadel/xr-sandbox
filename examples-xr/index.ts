@@ -3,10 +3,11 @@ import { QuerySelector } from "../src/selectors/QuerySelector";
 import { SanboxElement } from "../src/SanboxElement";
 import PageSandbox from "../src/PageSandbox";
 import { Flow } from "../src/Flow";
-import { SA_DragDropEMUUrl } from "./scripts/SA_DragDropEMU";
+import { SA_DragDropEMUUrl, SA_DragDropEMUUrls, SA_DragDropSceneJSON, SA_DragDropSceneJSONData } from "./scripts/SA_DragDropEMU";
 import { createCheckFaceMeshLoaded, createRunEvent } from "./scripts/MMD_SA_options";
 import { FallbackType } from "../src/sandbox-scripts/FallbackOnetimeSandboxScript";
 import { replaceDEBUG_show } from "./scripts/DEBUG_show";
+import { sceneIphoneJSON } from "./scripts/sceneJson";
 
 async function loadVRM(
   containerElement: HTMLElement,
@@ -58,7 +59,13 @@ async function loadVRM(
   await flow.waitScriptRun(pageSandbox, sceneScript);
 
   
-  const loadSceneScript = await SA_DragDropEMUUrl(`${location.href}data/scenes/vr_apartment.zip`, "scene_classroom.zip");
+  // const loadSceneScript = await SA_DragDropEMUUrl(`${location.href}data/scenes/iphone/props.zip`, "scene_classroom.zip");
+  // const fileUrls = ["scene.json", "props/iPhone/apple_iphone_based_mobile_phone.zip", "props/iPhone/apple_iphone_based_mobile_phone.glb"].map(filename => ({
+  //   filename,
+  //   url: `${location.href}data/scenes/iphone/${filename}`
+  // }));
+  // const loadSceneScript = await SA_DragDropEMUUrls(fileUrls);
+  const loadSceneScript = await SA_DragDropSceneJSONData(`${location.href}data/scenes`, sceneIphoneJSON);
   await flow.waitDispatch(bodyButton, loadSceneScript);
 
   return pageSandbox;
